@@ -1,0 +1,33 @@
+name: build
+on:
+  push:
+    branhes: [ main ]
+    paths-ignore:
+      - "README.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install gcovr
+        run: |
+          python -m pip install --upgrade pip
+          pip install gcovr
+
+      - name: Build and test
+        run: CODECOV=ON IWYU=OFF make cmake coverage
+
+      - name: Upload report
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./cmake-build-debug/codecov.xml
+          flags: unittests
+          fail_ci_if_error: true
