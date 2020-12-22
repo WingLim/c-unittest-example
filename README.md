@@ -16,6 +16,6 @@ Upload report:
 `.cc_token` alread ignore in `.gitignore`
 
 ```shell script
-echo "YOUR TOKNE" > .cc_token
+echo "YOUR TOKEN" > .cc_token
 bash <(curl -s https://codecov.io/bash) -f cmake-build-debug/codecov.xml -t @.cc_token
 ```
